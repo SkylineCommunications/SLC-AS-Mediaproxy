@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DMSScript options="272" xmlns="http://www.skyline.be/automation">
+	<Name>GQI_Mediaproxy_GetDpiEvents</Name>
+	<Description></Description>
+	<Type>Automation</Type>
+	<Author>GVH</Author>
+	<CheckSets>FALSE</CheckSets>
+	<Folder>GQI</Folder>
+
+	<Protocols>
+	</Protocols>
+
+	<Memory>
+	</Memory>
+
+	<Parameters>
+	</Parameters>
+
+	<Script>
+		<Exe id="1" type="csharp">
+			<Value><![CDATA[[Project:GQI_Mediaproxy_GetDpiEvents_1]]]></Value>
+			<Param type="preCompile">true</Param>
+			<Param type="libraryName">GQI_Mediaproxy_GetDpiEvents</Param>
+			<Message></Message>
+		</Exe>
+	</Script>
+</DMSScript>
