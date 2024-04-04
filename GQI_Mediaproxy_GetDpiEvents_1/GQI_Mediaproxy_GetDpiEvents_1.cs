@@ -9,7 +9,7 @@ using Skyline.DataMiner.Net.Messages;
 using Skyline.DataMiner.Net.Messages.Advanced;
 
 [GQIMetaData(Name = "Mediaproxy Get DPI Events")]
-public class GQI_Mediaproxy_GetDpiEvents : IGQIDataSource, IGQIOnInit, IGQIInputArguments /*, IGQIUpdateable*/
+public class GQI_Mediaproxy_GetDpiEvents : IGQIDataSource, IGQIOnInit, IGQIInputArguments, IGQIUpdateable
 {
     private readonly GQIStringArgument _dataminerIdArgument = new GQIStringArgument("Dataminer ID") { IsRequired = true };
     private readonly GQIStringArgument _elementIdArgument = new GQIStringArgument("Element ID") { IsRequired = true };
@@ -25,7 +25,7 @@ public class GQI_Mediaproxy_GetDpiEvents : IGQIDataSource, IGQIOnInit, IGQIInput
     private MediaproxyFilter mediaproxyFilter;
 
     private ICollection<GQIRow> _currentRows = Array.Empty<GQIRow>();
-    //private IGQIUpdater _updater;
+    private IGQIUpdater _updater;
 
     public OnInitOutputArgs OnInit(OnInitInputArgs args)
     {
@@ -63,7 +63,7 @@ public class GQI_Mediaproxy_GetDpiEvents : IGQIDataSource, IGQIOnInit, IGQIInput
             new GQIStringColumn("Instance"),
             new GQIStringColumn("Description"),
             new GQIStringColumn("Event ID"),
-            new GQIDateTimeColumn("Detected Time"),
+            new GQIStringColumn("Detected Time"),
             new GQIStringColumn("Preroll"),
             new GQIStringColumn("Duration"),
             new GQIStringColumn("Event Type"),
@@ -89,50 +89,50 @@ public class GQI_Mediaproxy_GetDpiEvents : IGQIDataSource, IGQIOnInit, IGQIInput
         }
     }
 
-    //public void OnStartUpdates(IGQIUpdater updater)
-    //{
-    //    _updater = updater;
-    //    _dataProvider.DpiEventsTable.Changed += TableData_OnChanged;
-    //}
+    public void OnStartUpdates(IGQIUpdater updater)
+    {
+        _updater = updater;
+        _dataProvider.DpiEventsTableLogServer6.Changed += TableData_OnChanged;
+    }
 
-    //public void OnStopUpdates()
-    //{
-    //    _dataProvider.DpiEventsTable.Changed -= TableData_OnChanged;
-    //    _updater = null;
-    //}
+    public void OnStopUpdates()
+    {
+        _dataProvider.DpiEventsTableLogServer6.Changed -= TableData_OnChanged;
+        _updater = null;
+    }
 
-    //private void TableData_OnChanged(object sender, ParameterTableUpdateEventMessage e)
-    //{
-    //    var newRows = CalculateNewRows().ToList();
+    private void TableData_OnChanged(object sender, ParameterTableUpdateEventMessage e)
+    {
+        var newRows = CalculateNewRows().ToList();
 
-    //    try
-    //    {
-    //        var comparison = new GqiTableComparer(_currentRows, newRows);
+        try
+        {
+            var comparison = new GqiTableComparer(_currentRows, newRows);
 
-    //        foreach (var row in comparison.RemovedRows)
-    //        {
-    //            _updater.RemoveRow(row.Key);
-    //        }
+            foreach (var row in comparison.RemovedRows)
+            {
+                _updater.RemoveRow(row.Key);
+            }
 
-    //        foreach (var row in comparison.UpdatedRows)
-    //        {
-    //            _updater.UpdateRow(row);
-    //        }
+            foreach (var row in comparison.UpdatedRows)
+            {
+                _updater.UpdateRow(row);
+            }
 
-    //        foreach (var row in comparison.AddedRows)
-    //        {
-    //            _updater.AddRow(row);
-    //        }
-    //    }
-    //    finally
-    //    {
-    //        _currentRows = newRows;
-    //    }
-    //}
+            foreach (var row in comparison.AddedRows)
+            {
+                _updater.AddRow(row);
+            }
+        }
+        finally
+        {
+            _currentRows = newRows;
+        }
+    }
 
     private GQIRow[] CalculateNewRows()
     {
-        mediaproxyFilter = mediaproxyFilter ?? new MediaproxyFilter(_dataProvider, dataminerId, elementId, channelId);
+        mediaproxyFilter = new MediaproxyFilter(_dataProvider, dataminerId, elementId, channelId);
 
         var dpiEvent = mediaproxyFilter.GetLatestDpiEvent().First();
 

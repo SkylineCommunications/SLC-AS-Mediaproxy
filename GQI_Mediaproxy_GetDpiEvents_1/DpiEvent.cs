@@ -4,6 +4,7 @@
     using Skyline.DataMiner.Net.Messages;
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Net;
     using System.Text.RegularExpressions;
 
@@ -78,7 +79,7 @@
                 new GQICell { Value = Instance },
                 new GQICell { Value = Description },
                 new GQICell { Value = EventId },
-                new GQICell { Value = DetectedTime.ToUniversalTime() },
+                new GQICell { Value = Convert.ToString(DetectedTime, CultureInfo.InvariantCulture) },
                 new GQICell { Value = String.Format("{0}s", TimeSpan.FromSeconds(Math.Round(PreRoll)).Seconds) },
                 new GQICell { Value = String.Format("{0}s", TimeSpan.FromSeconds(Math.Round(Duration)).Seconds) },
                 new GQICell { Value = EventType },

@@ -47,8 +47,8 @@
             _tableId = tableId;
             _gqiDms = gqiDms;
 
-            //_watcher = new ElementTableWatcher(connection, dataminerId, elementId, tableId, subscripionId);
-            //_watcher.Changed += Watcher_OnChanged;
+            _watcher = new ElementTableWatcher(connection, dataminerId, elementId, tableId, subscripionId);
+            _watcher.Changed += Watcher_OnChanged;
 
             FillCache();
         }
@@ -62,8 +62,8 @@
 
         public void Dispose()
         {
-            //_watcher.Changed -= Watcher_OnChanged;
-            //_watcher?.Dispose();
+            _watcher.Changed -= Watcher_OnChanged;
+            _watcher?.Dispose();
         }
 
         private void FillCache()

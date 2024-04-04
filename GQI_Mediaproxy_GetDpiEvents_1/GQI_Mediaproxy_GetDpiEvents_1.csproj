@@ -16,7 +16,7 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Skyline.DataMiner.Core.DataMinerSystem.Automation" Version="1.1.1.6" />
-		<PackageReference Include="Skyline.DataMiner.Dev.Automation" Version="10.4.3.2" />
+		<PackageReference Include="Skyline.DataMiner.Dev.Automation" Version="10.4.4.2" />
 	</ItemGroup>
 	<ProjectExtensions>
 	    <VisualStudio>
