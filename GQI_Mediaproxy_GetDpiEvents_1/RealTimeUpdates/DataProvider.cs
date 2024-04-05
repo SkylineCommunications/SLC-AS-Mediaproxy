@@ -36,7 +36,7 @@
         {
             DpiEventsTableLogServer6?.Dispose();
             DpiEventsTableLogServer7?.Dispose();
-            DpiEventsTableLogServer8?.Dispose();
+            //DpiEventsTableLogServer8?.Dispose();
         }
 
         private void InstantiateCache()
@@ -53,7 +53,7 @@
 
             DpiEventsTableLogServer6 = new ElementTableCache(_connection, _gqiDms, 196201, 4, 1700, "1");
             DpiEventsTableLogServer7 = new ElementTableCache(_connection, _gqiDms, 196201, 6, 1700, "2");
-            DpiEventsTableLogServer8 = new ElementTableCache(_connection, _gqiDms, 196201, 8, 1700, "3");
+            //DpiEventsTableLogServer8 = new ElementTableCache(_connection, _gqiDms, 196201, 8, 1700, "3");
         }
     }
 }

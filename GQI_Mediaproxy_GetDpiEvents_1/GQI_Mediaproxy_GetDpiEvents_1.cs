@@ -7,12 +7,12 @@ using GQI_EVSCerebrum_GetEndpoints_1.RealTimeUpdates;
 using Skyline.DataMiner.Analytics.GenericInterface;
 using Skyline.DataMiner.Net.Messages;
 using Skyline.DataMiner.Net.Messages.Advanced;
+using Skyline.DataMiner.Net.Ticketing;
 
 [GQIMetaData(Name = "Mediaproxy Get DPI Events")]
 public class GQI_Mediaproxy_GetDpiEvents : IGQIDataSource, IGQIOnInit, IGQIInputArguments, IGQIUpdateable
 {
-    private readonly GQIStringArgument _dataminerIdArgument = new GQIStringArgument("Dataminer ID") { IsRequired = true };
-    private readonly GQIStringArgument _elementIdArgument = new GQIStringArgument("Element ID") { IsRequired = true };
+    private readonly GQIStringArgument _fullElementIdArgument = new GQIStringArgument("Element ID") { IsRequired = true };
     private readonly GQIStringArgument _channelIdArgument = new GQIStringArgument("Channel ID") { IsRequired = true };
 
     private GQIDMS dms;
@@ -41,16 +41,20 @@ public class GQI_Mediaproxy_GetDpiEvents : IGQIDataSource, IGQIOnInit, IGQIInput
     {
         return new GQIArgument[]
         {
-            _dataminerIdArgument,
-            _elementIdArgument,
+            _fullElementIdArgument,
             _channelIdArgument,
         };
     }
 
     public OnArgumentsProcessedOutputArgs OnArgumentsProcessed(OnArgumentsProcessedInputArgs args)
     {
-        dataminerId = Convert.ToInt32(args.GetArgumentValue(_dataminerIdArgument));
-        elementId = Convert.ToInt32(args.GetArgumentValue(_elementIdArgument));
+        var rawElementId = args.GetArgumentValue(_fullElementIdArgument).Split(new[] { '/' });
+        if (rawElementId.Length == 2)
+        {
+            if (!int.TryParse(rawElementId[0], out dataminerId)) throw new ArgumentException("Script input is not valid.");
+            if (!int.TryParse(rawElementId[1], out elementId)) throw new ArgumentException("Script input is not valid.");
+        }
+
         channelId = Convert.ToString(args.GetArgumentValue(_channelIdArgument));
 
         return new OnArgumentsProcessedOutputArgs();
@@ -93,11 +97,15 @@ public class GQI_Mediaproxy_GetDpiEvents : IGQIDataSource, IGQIOnInit, IGQIInput
     {
         _updater = updater;
         _dataProvider.DpiEventsTableLogServer6.Changed += TableData_OnChanged;
+        _dataProvider.DpiEventsTableLogServer7.Changed += TableData_OnChanged;
+        //_dataProvider.DpiEventsTableLogServer8.Changed += TableData_OnChanged;
     }
 
     public void OnStopUpdates()
     {
         _dataProvider.DpiEventsTableLogServer6.Changed -= TableData_OnChanged;
+        _dataProvider.DpiEventsTableLogServer7.Changed -= TableData_OnChanged;
+        //_dataProvider.DpiEventsTableLogServer8.Changed -= TableData_OnChanged;
         _updater = null;
     }
 
@@ -134,7 +142,7 @@ public class GQI_Mediaproxy_GetDpiEvents : IGQIDataSource, IGQIOnInit, IGQIInput
     {
         mediaproxyFilter = new MediaproxyFilter(_dataProvider, dataminerId, elementId, channelId);
 
-        var dpiEvent = mediaproxyFilter.GetLatestDpiEvent().First();
+        var dpiEvent = mediaproxyFilter.GetLatestDpiEvent().Last();
 
         return new GQIRow[] { dpiEvent.ToRow() };
     }

@@ -49,12 +49,12 @@
             }
             else if (_dataminerId == 196201 && _elementId == 8)
             {
-                levelColumnData = _dataProvider.DpiEventsTableLogServer8.GetData();
+                levelColumnData = _dataProvider.DpiEventsTableLogServer8?.GetData();
             }
 
             AllDpiEvents = DpiEvent.CreateDpiEvents(levelColumnData);
 
-            return AllDpiEvents.Where(dpiEvent => dpiEvent.ChannelId == _channelId).OrderByDescending(x => x.DetectedTime).ToList();
+            return AllDpiEvents.Where(dpiEvent => dpiEvent.ChannelId == _channelId).OrderBy(x => x.DetectedTime).ToList();
         }
 
         private void Log(int items)
