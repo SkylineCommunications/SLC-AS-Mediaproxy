@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using GQI_EVSCerebrum_GetEndpoints_1.RealTimeUpdates;
+using GQI_Mediaproxy_GetDpiEvents_1.RealTimeUpdates;
 using Skyline.DataMiner.Analytics.GenericInterface;
 using Skyline.DataMiner.Net.Messages;
 using Skyline.DataMiner.Net.Messages.Advanced;

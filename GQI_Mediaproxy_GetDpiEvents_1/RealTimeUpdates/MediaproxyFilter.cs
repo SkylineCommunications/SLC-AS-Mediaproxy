@@ -1,6 +1,6 @@
-﻿namespace GQI_EVSCerebrum_GetEndpoints_1.RealTimeUpdates
+﻿namespace GQI_Mediaproxy_GetDpiEvents_1.RealTimeUpdates
 {
-    using GQI_EVSCerebrum_GetRoutesForDestination_1;
+    using GQI_Mediaproxy_GetDpiEvents_1;
     using Skyline.DataMiner.Net.Messages;
     using System;
     using System.Collections.Generic;

@@ -1,4 +1,4 @@
-﻿namespace GQI_EVSCerebrum_GetRoutesForDestination_1
+﻿namespace GQI_Mediaproxy_GetDpiEvents_1
 {
     using Skyline.DataMiner.Analytics.GenericInterface;
     using Skyline.DataMiner.Net.Messages;

@@ -1,4 +1,4 @@
-﻿namespace GQI_EVSCerebrum_GetEndpoints_1.RealTimeUpdates
+﻿namespace GQI_Mediaproxy_GetDpiEvents_1.RealTimeUpdates
 {
     using Skyline.DataMiner.Analytics.GenericInterface;
     using Skyline.DataMiner.Core.DataMinerSystem.Common;
