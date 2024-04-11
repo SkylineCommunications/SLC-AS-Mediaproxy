@@ -23,7 +23,7 @@
 
         private readonly GQIDMS _gqiDms;
 
-        private ParameterValue _cachedTable;
+        //private ParameterValue _cachedTable;
 
         public ElementTableCache(Connection connection, GQIDMS gqiDms, int dataminerId, int elementId, int tableId, string subscripionId = "1")
         {
@@ -50,14 +50,14 @@
             _watcher = new ElementTableWatcher(connection, dataminerId, elementId, tableId, subscripionId);
             _watcher.Changed += Watcher_OnChanged;
 
-            FillCache();
+            //FillCache();
         }
 
         public event EventHandler<ParameterTableUpdateEventMessage> Changed;
 
         public ParameterValue[] GetData()
         {
-            return _cachedTable.ArrayValue;
+            return GetTable().ArrayValue;
         }
 
         public void Dispose()
@@ -74,7 +74,7 @@
                 return;
             }
 
-            _cachedTable = table;
+            //_cachedTable = table;
         }
 
         private void UpdateCache(ParameterTableUpdateEventMessage message)
@@ -82,7 +82,7 @@
             var newTable = message.NewValue;
             if (newTable is null || message.ParameterID != _tableId) return;
 
-            _cachedTable.ApplyUpdate(message);
+            //_cachedTable.ApplyUpdate(message);
         }
 
         private ParameterValue GetTable()
